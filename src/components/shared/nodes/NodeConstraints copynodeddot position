@@ -1,0 +1,173 @@
+/* eslint-disable*/
+
+import { mergeStyles, mergeStyleSets } from "@fluentui/react/lib/Styling";
+import {
+  ConstraintOperator,
+  IConstraintDisplayMapping,
+} from "models/constraints";
+import { ISlotConstraint } from "models/slot";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { previewResultActions } from "store/PreviewResultSlice";
+
+const NodeConstraintsClass = mergeStyleSets({
+  tableContent: {
+    "> td": {
+      verticalAlign: "baseline",
+      fontSize: "12px",
+    },
+  },
+});
+
+const DotClass = mergeStyles({
+  position: "absolute",
+  right: 15,
+  height: 8,
+  width: 8,
+  borderRadius: "50%",
+  backgroundColor: "green",
+  top: 15,
+});
+
+export function ConstraintDisplay({
+  show,
+  constraints,
+  constraintValuesMapping,
+}: {
+  show?: boolean;
+  constraints: ISlotConstraint[];
+  constraintValuesMapping: IConstraintDisplayMapping;
+}) {
+  const dispatch = useDispatch();
+  const dotRef = useRef<HTMLInputElement>(null);
+  /*  const recta = dotRef?.current?.getBoundingClientRect(); */
+  const [x, setX] = useState();
+
+  /*   const elem = document.getElementById("dot");
+  let rect = elem!.getBoundingClientRect(); */
+  const getConstraintDisplayName = (constraintName: string) => {
+    const constraintDisplayInfo = constraintValuesMapping![constraintName];
+    return constraintDisplayInfo.constraintLabel;
+  };
+
+  const getConstraintsValueDisplayName = (
+    constraintValue: string,
+    constraintName: string
+  ) => {
+    if (constraintValue !== "") {
+      const constraintValues = constraintValue.split(",");
+      const constraintDisplayInfo = constraintValuesMapping![constraintName];
+      const displayValues = constraintValues.map(
+        (cv) => constraintDisplayInfo.values.find((v) => v.name === cv)!.display
+      );
+      return displayValues.join(", ");
+    }
+
+    return constraintValue;
+  };
+
+  const dotStyle = (show: boolean) => {
+    return {
+      transform: !show ? "scale(0)" : "scale(1)",
+      transition: "all .5s",
+    };
+  };
+
+  const getDotPosition = () => {
+    if (!dotRef.current) return;
+    if (dotRef && dotRef.current /*  && rect */) {
+      /* const x = dotRef.current.offsetLeft;
+      setX(x); */
+
+      /*  templateEditPreviewActions.setPreviewConfig({
+         languagelocale,
+         asofdate,
+         context,
+       });
+       */
+
+      const tmpDotRef = dotRef.current.getBoundingClientRect().x;
+      /* dispatch(
+        previewResultActions.setPositionXState({
+          positionX: tmpDotRef,
+          isInit: false,
+        })
+      ); */
+
+      /* dispatch(
+        previewResultActions.setPositionXState({ dotRef.current.getBoundingClientRect().x,
+          true } )
+      ); */
+
+      return;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", getDotPosition);
+    getDotPosition();
+    console.log(
+      /*  rect, */
+      "dotRef.current "
+    );
+  }, []);
+
+  return (
+    <>
+      <table>
+        <tbody>
+          {constraints.map((constraint, index) => (
+            <tr
+              key={`constraint_${index}`}
+              className={NodeConstraintsClass.tableContent}
+            >
+              <td>{getConstraintDisplayName(constraint.key)}</td>
+              <td>
+                {constraint.operator === ConstraintOperator.Include
+                  ? "="
+                  : "!="}
+              </td>
+              <td>
+                <div style={{ paddingRight: 20 }}>
+                  {getConstraintsValueDisplayName(
+                    constraint.value,
+                    constraint.key
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div id="dot" ref={dotRef} className={DotClass} style={dotStyle(show!)} />
+    </>
+  );
+}
+
+function NodeConstraints({
+  show,
+  constraints,
+  constraintValuesMapping,
+}: {
+  show: boolean;
+  constraints: ISlotConstraint[];
+  constraintValuesMapping: IConstraintDisplayMapping;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        transition: "max-height .3s",
+        lineHeight: "20px",
+      }}
+    >
+      <ConstraintDisplay
+        show={show}
+        constraints={constraints}
+        constraintValuesMapping={constraintValuesMapping}
+      />
+    </div>
+  );
+}
+
+export default NodeConstraints;

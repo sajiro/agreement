@@ -1,0 +1,72 @@
+import useDocumentPreview from "hooks/useDocumentPreview";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { Text } from '@fluentui/react/lib/Text';
+import stringsConst from "consts/strings";
+import { FontIcon } from "@fluentui/react";
+
+interface DocumentViewerProps {
+  fileName: string;
+  frameHeight?: string;
+  errorTextStyle?: CSSProperties;
+}
+
+function DocumentViewer({
+  fileName,
+  frameHeight = "100%",
+  errorTextStyle
+}: DocumentViewerProps) {
+  const { generateIFramePreview } = useDocumentPreview();
+  const [errorMessage, setErrorMessage] = useState<string|undefined>(undefined);
+  const iframe = useRef(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { isError, content } = await generateIFramePreview(fileName);
+      if (!isError) {
+        if (!iframe.current) return;
+        const iframeCurrent = iframe.current as HTMLIFrameElement;
+        const iframeItem = iframeCurrent.contentWindow!.document;
+        iframeItem.open();
+        iframeItem.write(content);
+        iframeItem.close();
+        setErrorMessage(undefined);
+        return;
+      }
+
+      setErrorMessage(`${stringsConst.common.officeOnlineError} ${content}`);
+    };
+
+    fetchData();
+  }, [fileName, setErrorMessage]);
+
+  return (
+<<<<<<< Updated upstream
+    <>
+      {errorMessage && <div style={errorTextStyle}>
+        <Text>
+          <FontIcon iconName="ErrorBadge" style={{ color: "#A80000", marginRight: 3, position: "relative", top: 2}} />
+          {errorMessage}
+        </Text>
+      </div>}
+      {!errorMessage && <iframe
+        style={{ width: "100%", height: frameHeight, border: "none" }}
+        title="clause preview"
+        ref={iframe}
+        className="'terms-office-iframe"
+        aria-label="clause preview"
+      />}
+    </>
+=======
+    <iframe
+      data-automation-id="Preview-document"
+      style={{ width: "100%", height: frameHeight, border: "none" }}
+      title="clause preview"
+      ref={iframe}
+      className="'terms-office-iframe"
+      aria-label="clause preview"
+    />
+>>>>>>> Stashed changes
+  );
+};
+
+export default DocumentViewer;

@@ -1,0 +1,131 @@
+<<<<<<< Updated upstream
+
+import { mergeStyleSets } from '@fluentui/react/lib/Styling';
+import { ConstraintOperator, IConstraintDisplayMapping } from "models/constraints";
+=======
+import { mergeStyles, mergeStyleSets } from "@fluentui/react/lib/Styling";
+import {
+  ConstraintOperator,
+  IConstraintDisplayMapping,
+} from "models/constraints";
+>>>>>>> Stashed changes
+import { ISlotConstraint } from "models/slot";
+
+const NodeConstraintsClass = mergeStyleSets({
+  tableContent: {
+    "> td": {
+      verticalAlign: "baseline",
+      fontSize: "12px",
+    },
+  },
+});
+
+const DotClass = mergeStyles({
+  position: "absolute",
+  right: 15,
+  height: 8,
+  width: 8,
+  borderRadius: "50%",
+  backgroundColor: "green",
+  top: 15,
+});
+
+export function ConstraintDisplay({
+  show,
+  constraints,
+  constraintValuesMapping,
+}: {
+  show?: boolean;
+  constraints: ISlotConstraint[];
+  constraintValuesMapping: IConstraintDisplayMapping;
+}) {
+  const getConstraintDisplayName = (constraintName: string) => {
+    const constraintDisplayInfo = constraintValuesMapping![constraintName];
+    return constraintDisplayInfo.constraintLabel;
+  };
+
+  const getConstraintsValueDisplayName = (
+    constraintValue: string,
+    constraintName: string
+  ) => {
+    if (constraintValue !== "") {
+      const constraintValues = constraintValue.split(",");
+      const constraintDisplayInfo = constraintValuesMapping![constraintName];
+<<<<<<< Updated upstream
+      const displayValues = constraintValues.map(cv => constraintDisplayInfo.values.find(v => v.name === cv)!.display || constraintDisplayInfo.values.find(v => v.name === cv)!.name);
+      return displayValues.join(", ").replace(/, ([^,]*)$/, ' or $1');
+=======
+      const displayValues = constraintValues.map(
+        (cv) => constraintDisplayInfo.values.find((v) => v.name === cv)!.display
+      );
+      return displayValues.join(", ");
+>>>>>>> Stashed changes
+    }
+
+    return constraintValue;
+  };
+
+  const dotStyle = (showDot: boolean) => ({
+    transform: !showDot ? "scale(0)" : "scale(1)",
+    transition: "all .5s",
+  });
+
+  return (
+    <>
+      <table>
+        <tbody>
+          {constraints.map((constraint, index) => (
+            <tr
+              key={`constraint_${index}`}
+              className={NodeConstraintsClass.tableContent}
+            >
+              <td>{getConstraintDisplayName(constraint.key)}</td>
+              <td>
+                {constraint.operator === ConstraintOperator.Include
+                  ? "="
+                  : "!="}
+              </td>
+              <td>
+                <div style={{ paddingRight: 20 }}>
+                  {getConstraintsValueDisplayName(
+                    constraint.value,
+                    constraint.key
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className={DotClass} style={dotStyle(show!)} />
+    </>
+  );
+}
+
+function NodeConstraints({
+  show,
+  constraints,
+  constraintValuesMapping,
+}: {
+  show: boolean;
+  constraints: ISlotConstraint[];
+  constraintValuesMapping: IConstraintDisplayMapping;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        transition: "max-height .3s",
+        lineHeight: "20px",
+      }}
+    >
+      <ConstraintDisplay
+        show={show}
+        constraints={constraints}
+        constraintValuesMapping={constraintValuesMapping}
+      />
+    </div>
+  );
+}
+
+export default NodeConstraints;

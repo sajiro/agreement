@@ -1,0 +1,6 @@
+devserver.js
+src/cv.js
+src/telemetry.ts
+src/react-app-env.d.ts
+public/*
+build/*

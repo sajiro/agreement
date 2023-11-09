@@ -1,0 +1,118 @@
+{
+  "name": "agreement_center",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@azure/msal-browser": "2.16.0",
+    "@azure/msal-react": "1.1.0",
+    "@fluentui/react": "^8.55.3",
+    "@microsoft/applicationinsights-react-js": "^3.2.2",
+    "@microsoft/applicationinsights-web": "^2.7.0",
+    "@reduxjs/toolkit": "^1.7.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/history": "^4.7.9",
+    "@types/jest": "^26.0.15",
+    "@types/lodash": "^4.14.178",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-redux": "^7.1.20",
+    "axios": "^0.22.0",
+    "cors": "^2.8.5",
+    "cra-build-watch": "^3.4.0",
+    "etag": "^1.8.1",
+    "flat": "^5.0.2",
+    "html-webpack-plugin": "4",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "object-hash": "^3.0.0",
+    "query-string": "^7.0.1",
+    "react": "^17.0.2",
+    "react-container-dimensions": "^1.4.1",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.2",
+    "react-dom": "^17.0.2",
+    "react-named-routes": "^2.0.0",
+    "react-redux": "^7.2.6",
+    "react-resizable": "^3.0.4",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.2",
+    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-vtree": "^3.0.0-beta.3",
+    "react-window": "^1.8.6",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^4.1.2",
+    "usehooks-ts": "^1.0.6",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "SET REACT_APP_NODE_ENV=int&&react-scripts start",
+    "build:latest": "SET REACT_APP_NODE_ENV=int&&SET PUBLIC_URL=https://agreementcenterv2ppe.azureedge.net&& npm run build:ci",
+    "build:prod": "SET REACT_APP_NODE_ENV=prod&&SET PUBLIC_URL=https://agreementcenterv2.azureedge.net&& npm run build:ci",
+    "build:ci": "set CI=true && react-scripts build",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:ci": "set CI=true && react-scripts test --runInBand",
+    "eject": "react-scripts eject",
+    "watch": "cra-build-watch -o \"static/js/[name].chunk.js\" --chunk-filename \"static/js/[id].[hash].chunk.js\"",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run test && npm run build",
+    "prepare": "husky install"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!@fluentui/react)/"
+    ]
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.2.1",
+    "@types/etag": "^1.8.1",
+    "@types/flat": "^5.0.2",
+    "@types/object-hash": "^2.2.1",
+    "@types/react-router-dom": "^5.3.2",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.0",
+    "msw": "^0.42.1",
+    "prettier": "^2.5.1"
+  },
+  "overrides": {
+    "@svgr/webpack": "$@svgr/webpack"
+  }
+}

@@ -1,0 +1,119 @@
+# Redux State Tree
+
+## Reference
+
+[Using Redux and Redux ToolKit](https://redux-toolkit.js.org/)
+
+## Tree
+
+- store
+  - panel (We use this slice to determine what type the panel is i.e. if Clause, Template etc and then the Id for that agreement type. The additionalInfo is an object that containts information relating to what type of state that agreement type is in so either Default for edit, NewRevision or NewClause/NewTemplate)
+    - panelType
+    - agreementObjectIds
+      - clauseId
+      - templateId
+      - revisionId
+      - constraintId
+      - isNothingSelected
+    - additionalInfo
+    - persistentInfo
+  - clausePanelForms (this slice maintains the state of the clause panel)
+    - clauseId
+    - revisionId
+    - propertiesForm
+      - properties
+        - name
+        - category
+      - revisionProperties
+        - name
+        - displayOption
+      - isValid
+      - hasChanges
+    - translationsForm
+      - existingTranslations
+      - removedTranslations
+      - uploadedTranslations
+        - fileName
+        - fileType
+        - blobUrl
+        - errorMessage
+      - successfullyRemovedTranslations
+      - successfullyUploadedTranslations
+      - isValid
+    - isSubmitting
+    - hasSubmitted
+  - customClausePanelForms (this slice maintains the state of the custom clause panel)
+    - templateId
+    - clauseId
+    - revisionId
+    - propertiesForm
+      - properties
+        - name
+        - category
+        - description
+        - templateId
+      - revisionProperties
+        - name
+      - isValid
+      - hasChanges
+    - translationsForm
+      - existingTranslations
+      - removedTranslations
+      - uploadedTranslations
+        - fileName
+        - fileType
+        - blobUrl
+        - errorMessage
+      - successfullyRemovedTranslations
+      - successfullyUploadedTranslations
+      - isValid
+    - isSubmitting
+    - hasSubmitted
+  - panelMessages (this slice keeps track of the panel messages to be displayed)
+    - type
+    - message
+    - callout
+      - subMessages
+      - infoText
+    - isPartialSuccess
+  - dialog (we use a universal dialog and we need to know if it is open, proceeding so to disable the buttons, need to know what type of dialog and the title)
+    - isDialogOpen
+    - isProceeding
+    - title
+    - type
+  - contentPlaceholders (we need this so we can maintain the values between the different clauses and revisions when we switch between them)
+    - clauseId
+    - revisionId
+    - id
+    - value
+  - templateForms (this slice maintains the state of the template panel)
+    - templateId
+    - revisionId
+    - propertiesForm
+      - name
+      - revision
+      - description
+      - tags
+    - isSubmitting
+  - templateEditPreview (this slice to is to maintain state of the constraints selected as switch between tabs)
+    - languagelocale
+    - asofdate
+    - context
+    - IncludeTestRevision
+  - businessUnit (need this to track current business unit when we update the Tenant header)
+  - templateEditPanelManagement (need this to track the different panel states and make sure they are open/closed per tab selected )
+    - openedPanel
+  - templateEdit (slice to manage general state of the template edit page which includes if something is loading, is locked because of type or error message)
+    - isLoading
+    - isLocked
+    - messageInfo
+      - message
+      - type
+  - previewResult (state to manage which slots are previewed and width for when going between tabs)
+    - nodeWidth
+    - isInit
+    - previewSlots
+  - resultSlot ()
+    - previewSlots
+    - isTriggered
+    - toggle
